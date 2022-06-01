@@ -1,17 +1,11 @@
 import { NavigationContainer } from '@react-navigation/native'
-import { StackRoutes } from './stack.route';
-import { TabRoutes } from './Tab.Routes';
+import StackRoutes from './Stack.Routes';
+import { navigationRef } from './NavigationService';
 
-export function Routes() {
+export default function Routes() {
   return (
-    <NavigationContainer>
-      <TabRoutes
-
-
-      />
-
+    <NavigationContainer ref={navigationRef}>
+      <StackRoutes />
     </NavigationContainer>
   )
-
-
 }

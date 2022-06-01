@@ -1,21 +1,15 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { Component } from 'react';
 import { HomeMap } from '../screens/HomeMap';
-import { Perfil } from '../screens/Perfil';
 import { Bilheteria } from '../screens/Bilheteria';
-import {Profile } from '../screens/Profile/profile'
-import {MaterialIcons} from '@expo/vector-icons'
+import { Profile } from '../screens/Profile/profile'
 import { Entypo } from '@expo/vector-icons'
 import { AntDesign } from '@expo/vector-icons'; 
+
 const { Screen, Navigator } = createBottomTabNavigator();
-export function TabRoutes() {
+
+export default function TabRoutes() {
   return (
-    <Navigator
-    screenOptions={{
-     /* tabBarActiveTintColor: 'navy',
-      tabBarInactiveBackgroundColor: 'gray' */
-    }}
-    >
+    <Navigator>
       <Screen
         name='HOMEMAP'
         options={{
@@ -27,7 +21,6 @@ export function TabRoutes() {
            size={size}
           
           />)
-          
         }}
         component={HomeMap}
       />
@@ -47,7 +40,6 @@ export function TabRoutes() {
       <Screen
         name='Profile'
         options={{
-
           tabBarLabel: 'PERFIL',
           headerShown: false,
           tabBarIcon: ({color, size}) => (<AntDesign
