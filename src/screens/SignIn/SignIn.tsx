@@ -33,9 +33,9 @@ export default function SignIn() {
 
       await setToken(token)
       
-      // if (type === "success"){
-      navigation.replace('HomeNavigator', {});
-      // }
+      if (type === "success"){
+        navigation.replace('HomeNavigator', {});
+      }
     } catch (error) {
       console.log(error)
     }
