@@ -10,7 +10,7 @@ import { Button } from '../../components/Button';
 import { styles } from './styles';
 import { theme } from '../../styles/theme';
 import { navigate } from '../../Routes/NavigationService';
-import { getToken } from '../../services/Storage';
+import { destroyToken, getToken } from '../../services/Storage';
 
 type ParamList = {
   Profile: {
@@ -36,6 +36,8 @@ export function Profile() {
   }, [])
 
   async function handleLogout(): Promise<void> {
+    await destroyToken()
+    
     navigate('Signin');
   }
 
