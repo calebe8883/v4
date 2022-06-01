@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text } from 'react-native';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { RouteProp, useRoute } from '@react-navigation/native';
 import { Feather } from '@expo/vector-icons';
 
 import { ProfileHeader } from '../../components/ProfileHeader';
@@ -9,10 +9,15 @@ import { Button } from '../../components/Button';
 
 import { styles } from './styles';
 import { theme } from '../../styles/theme';
+import { navigate } from '../../Routes/NavigationService';
+import { getToken } from '../../services/Storage';
 
-type params = {
-  token: string
+type ParamList = {
+  Profile: {
+    token: string
+  }
 }
+
 type Profile = {
   email: string;
   family_name: string;
@@ -23,23 +28,28 @@ type Profile = {
 }
 
 export function Profile() {
-  const [profile, setProfile] = useState({} as Profile);
-  const navigation = useNavigation();
-  const route = useRoute();
-  const { token } = route.params as params;
-  console.log(token)
+  const [profile, setProfile] = useState<Partial<Profile>>({});
+  const route = useRoute<RouteProp<ParamList, 'Profile'>>();
 
-  async function handleLogout(): Promise<void> {
-    navigation.navigate('SignIn');
-  }
-  async function loadprofile() {
-    const response = await fetch(`https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${token}`);
-    const userInfo = await response.json();
-    setProfile(userInfo);
-  }
   useEffect(() => {
     loadprofile();
   }, [])
+
+  async function handleLogout(): Promise<void> {
+    navigate('Signin');
+  }
+
+  async function loadprofile() {
+    const tokenOnStorage = await getToken()
+
+    const tokenToUse: string | null = route.params?.token || tokenOnStorage
+
+    if (tokenToUse) {
+      const response = await fetch(`https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${tokenToUse}`);
+      const userInfo = await response.json();
+      setProfile(userInfo);
+    }
+  }
 
   return (
     <View style={styles.container}>
@@ -105,9 +115,3 @@ export function Profile() {
     </View>
   );
 }
-
-/*<Button
-title="Desconectar"
-icon="power"
-onPress={handleLogout}
-/> */
