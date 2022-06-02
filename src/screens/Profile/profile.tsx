@@ -109,8 +109,8 @@ export function Profile() {
           
         </View>
         <Button
-          title="ENCONTRE SEU ROLÊ"
-          icon="map"
+          title="Sair"
+          icon="power"
           onPress={handleLogout}
         />
       </View>
